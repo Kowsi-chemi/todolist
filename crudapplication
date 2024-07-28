@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    input[type="text"], input[type="number"] {
+      margin-bottom: 10px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    input[type="button"] {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    input[type="button"]:hover {
+      background-color: #45a049;
+    }
+
+    .list {
+      margin-top: 20px;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      background-color: #f9f9f9;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .actions button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      margin-right: 5px;
+      border-radius: 5px;
+    }
+
+    .actions button.update {
+      background-color: #4CAF50;
+    }
+
+    .actions button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h2>CRUD Application</h2>
+  <form id="crudForm">
+    <input type="text" id="itemInput" placeholder="Enter item">
+    <input type="button" id="addButton" value="Add">
+  </form>
+  <div class="list" id="itemList"></div>
+</div>
+
+<script>
+  // JavaScript for CRUD functionality
+  let items = [];
+  let currentIndex = -1;
+
+  const itemInput = document.getElementById('itemInput');
+  const addButton = document.getElementById('addButton');
+  const itemList = document.getElementById('itemList');
+
+  function renderList() {
+    itemList.innerHTML = '';
+    items.forEach((item, index) => {
+      const listItem = document.createElement('div');
+      listItem.className = 'list-item';
+      listItem.innerHTML = `
+        <span>${item}</span>
+        <div class="actions">
+          <button class="update" onclick="editItem(${index})">Update</button>
+          <button onclick="deleteItem(${index})">Delete</button>
+        </div>`
+      ;
+      itemList.appendChild(listItem);
+    });
+  }
+
+  function addItem() {
+    const item = itemInput.value.trim();
+    if (item !== '') {
+      if (currentIndex >= 0) {
+        items[currentIndex] = item;
+        currentIndex = -1;
+        addButton.value = 'Add';
+      } else {
+        items.push(item);
+      }
+      itemInput.value = '';
+      renderList();
+    }
+  }
+
+  function editItem(index) {
+    itemInput.value = items[index];
+    currentIndex = index;
+    addButton.value = 'Update';
+  }
+
+  function deleteItem(index) {
+    items.splice(index, 1);
+    renderList();
+  }
+
+  addButton.addEventListener('click', addItem);
+</script>
+
+</body>
+</html>
