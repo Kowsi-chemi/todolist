@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Form</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+BE+VLG:wght@100..400&display=swap');
+    body {
+      background-image: url("https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8NHx8fGVufDB8fHx8fA%3D%3D");
+      background-repeat: no-repeat;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: "Playfair Display", serif;
+    }
+    form {
+      width: 600px;
+      padding: 20px;
+      background-color: rgba(37, 196, 227, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 20px 0;
+      border-radius: 10px;
+      border: 2px solid #4a90e2;
+      font-size: 18px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      width: 40%;
+      padding: 10px;
+      border-radius: 10px;
+      background-color: #32cd32;
+      color: white;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #28a745;
+    }
+    .output-section {
+      width: 80%;
+      padding: 10px;
+      background-color: rgba(76, 41, 190, 0.8);
+      color: white;
+      margin: 10px auto;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .edit-button, .delete-button {
+      height: 25px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .edit-button {
+      background-color: rgba(43, 233, 138, 0.822);
+    }
+    .edit-button:hover {
+      background-color: #28a745;
+    }
+    .delete-button {
+      background-color: rgba(236, 25, 25, 0.822);
+    }
+    .delete-button:hover {
+      background-color: #dc3545;
+    }
+  </style>
+</head>
+<body>
+  <form>
+    <div class="form-division">
+      <input type="text" id="userinput" placeholder="Enter item">
+      <button id="addButton">ADD</button>
+    </div>
+    <div id="list"></div>
+  </form>
+
+  <script>
+    const items = [];
+    const button = document.querySelector('#addButton');
+    const userinput = document.getElementById("userinput");
+    const listDivision = document.getElementById("list");
+
+    function showData() {
+      listDivision.innerHTML = "";
+      items.forEach((data, index) => {
+        const newDivision = document.createElement('div');
+        newDivision.classList = "output-section";
+        newDivision.innerHTML = 
+          `${data}
+          <button class="edit-button" onclick="editItem(${index})">EDIT</button>
+          <button class="delete-button" onclick="deleteItem(${index})">DELETE</button>`
+        ;
+        listDivision.appendChild(newDivision);
+      });
+    }
+
+    function addItem(event) {
+      event.preventDefault();
+      if (userinput.value === "") {
+        alert("Must enter a value");
+      } else {
+        items.push(userinput.value);
+        userinput.value = "";
+        showData();
+      }
+    }
+
+    function editItem(index) {
+      const newValue = prompt("Edit your item:", items[index]);
+      if (newValue !== null) {
+        items[index] = newValue;
+        showData();
+      }
+    }
+
+    function deleteItem(index) {
+      items.splice(index, 1);
+      showData();
+    }
+
+    button.addEventListener('click', addItem);
+  </script>
+</body>
+</html>
